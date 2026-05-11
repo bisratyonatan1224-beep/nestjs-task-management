@@ -1,6 +1,6 @@
 import { ArgumentMetadata, BadRequestException, PipeTransform } from "@nestjs/common";
 import { SearchTaskDTO } from "../DTO/task.searchTaskDTO";
-import { TaskStatus } from "../tasks.models";
+import { TaskStatus } from "../taskStatus.enum";
 
 export class IsValidSearchTerm implements PipeTransform {
     transform(searchTask: SearchTaskDTO, metadata: ArgumentMetadata) {
