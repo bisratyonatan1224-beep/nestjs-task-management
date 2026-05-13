@@ -6,7 +6,10 @@ import { User } from './auth.entity';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { JwtStrategy } from './jwt.strategy';
+import config from "config"
+import { JWTConfigInterface } from 'config/ConfigInterfaces/jwtConfig.interface';
 
+const jwtConfig = config.get<JWTConfigInterface>('jwt');
 @Module({
   imports: [
     PassportModule.register({
@@ -14,9 +17,9 @@ import { JwtStrategy } from './jwt.strategy';
     }),
     TypeOrmModule.forFeature([User]),
     JwtModule.register({
-      secret: "HAZARDxWILLIAN",
+      secret: process.env.JWT_SECRET ||  jwtConfig.secret,
       signOptions: {
-        expiresIn: 3600, //expires in three hours
+        expiresIn: jwtConfig.expiresIn, //expires in three hours
         
       }
     })
