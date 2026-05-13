@@ -8,4 +8,6 @@ export class SearchTaskDTO {
     @IsOptional()
     @IsIn(Object.values(TaskStatus))
     status : TaskStatus;
+
+    
 }
