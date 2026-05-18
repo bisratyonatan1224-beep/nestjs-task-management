@@ -2,12 +2,9 @@ import { BadRequestException, Injectable, NotFoundException } from '@nestjs/comm
 import { CreateTaskDTO } from './DTO/tasks.createTaskDTO';
 import { TaskStatus } from './taskStatus.enum';
 import { SearchTaskDTO } from './DTO/task.searchTaskDTO';
-import { title } from 'process';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Task } from './tasks.entity';
 import { Repository } from 'typeorm';
-import { response } from 'express';
-import { stat } from 'fs';
 import { User } from 'src/auth/auth.entity';
 import { ReturnTaskDTO } from './DTO/returnTask.dto';
 
@@ -23,10 +20,10 @@ export class TasksService {
        query.where('task.userId= :userId', {userId : user.id}) 
        const {title, status} = filterDTO;
 
-       if(filterDTO.status){
-        query.andWhere('task.status = :status AND task.userId = :userId', {status});
+       if(status){
+        query.andWhere('task.status = :status', {status});
        }
-       if(filterDTO.title){
+       if(title){
         query.andWhere('(task.title LIKE :title OR task.description LIKE :title)', {title : `%${title}%`})
        }
         const tasks = await query.getMany();
